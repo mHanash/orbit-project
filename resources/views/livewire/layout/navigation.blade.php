@@ -39,7 +39,8 @@ new class extends Component
                     wire:navigate>
                     {{ __('Profil') }}
                 </a>
-                <a class="btn btn-sm btn-outline-danger" href="#" wire:click="logout">
+                <a onclick="return confirm('Voulez-vous vraiment vous déconnecter ?');"
+                    class="btn btn-sm btn-outline-danger" href="#" wire:click="logout">
                     {{ __('Déconnexion') }}
                 </a>
             </div>
