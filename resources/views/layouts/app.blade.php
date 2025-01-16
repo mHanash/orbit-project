@@ -15,6 +15,12 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <style>
+        .custom-card:hover {
+            background-color: #007bff;
+            /* Couleur bg-primary */
+        }
+    </style>
 </head>
 
 <body>
@@ -33,7 +39,9 @@
         <!-- Page Content -->
         <main>
             <div class="container">
-                {{ $slot }}
+                <div class="card overflow-y-scroll" style="height: 80vh;margin-top:30px;padding:20px">
+                    {{ $slot }}
+                </div>
             </div>
         </main>
     </div>
