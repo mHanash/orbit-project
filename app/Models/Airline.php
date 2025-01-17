@@ -23,7 +23,7 @@ class Airline extends Model
      */
     public function airplaneTypes(): BelongsToMany
     {
-        return $this->belongsToMany(AirplaneType::class, 'airline_airplane_types', 'airline_id', 'airplane_type_id');
+        return $this->belongsToMany(AirplaneType::class, 'airline_airplane_types', 'airline_id', 'airplanes_type_id');
     }
 
     /**

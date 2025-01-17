@@ -31,6 +31,7 @@ new class extends Component {
                         <th>#</th>
                         <th>Nom</th>
                         <th>Pays</th>
+                        <th>Type d'avion</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -46,7 +47,9 @@ new class extends Component {
                         <td>{{$i}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->country}}</td>
-                        <td><a href="#" class="btn btn-sm btn-info text-white">Modifier</a></td>
+                        <td>{{$item->airplaneTypes->count()}}</td>
+                        <td><a href="{{route('airline.edit',['id'=>$item->id])}}" class="btn btn-sm btn-info text-white"
+                                wire:navigate>Modifier</a></td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -17,6 +17,7 @@ Route::prefix('portal')->middleware('auth')->group(function () {
     //routes pour compagnie aérienne
     Volt::route('/airlines', 'airline.index')->name('airline.index');
     Volt::route('/airlines/create', 'airline.create')->name('airline.create');
+    Volt::route('/airlines/{id}/create', 'airline.edit')->name('airline.edit');
     //routes pour type d'avion
     Volt::route('/airplane-types', 'airplaneType.index')->name('airplaneType.index');
     Volt::route('/airplane-types/create', 'airplaneType.create')->name('airplaneType.create');

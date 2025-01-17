@@ -1,9 +1,15 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Flight;
 
 new class extends Component {
-    //
+    public $flights = [];
+
+    public function mount()
+    {
+        $this->flights = Flight::where('status','=','created')->get();
+    }
 }; ?>
 <x-slot name="header">
     <h2 class="h4 text-white">
@@ -23,18 +29,21 @@ new class extends Component {
     </div>
     <div style="max-height: 85%" class="overflow-y-scroll border">
         <div class="row">
-            @for ($i = 0; $i < 10; $i++) <div class="col-md-3 ">
+            @foreach($flights as $key => $value)
+            <div class="col-md-3 ">
                 <div class="card m-1">
                     <div class="card-body">
-                        <h5 class="card-title">Vol num. </h5>
+                        <h5 class="card-title">Vol num: {{$value->number}} </h5>
                         <p class="card-text">
-                            <b>KINSHASA-GOMA</b><br />21/01/2002<br />Compagnie:<br />Type<br />Prix:180$
+                            <b>{{$value->initialPoint->name}}-{{$value->finalPoint->name}}</b><br />{{$value->date}}<br />{{$value->airline->name}}
+                            ({{$value->airline->country}})<br />{{$value->airplaneType->name}}<br />Prix ($):
+                            {{$value->price}}
                         </p>
                         <a href="#" class="btn btn-success">Reserver</a>
                     </div>
                 </div>
+            </div>
+            @endforeach
         </div>
-        @endfor
     </div>
-</div>
 </div>

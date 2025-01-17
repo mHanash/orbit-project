@@ -48,10 +48,10 @@ public function save()
             @if ($showMessage)
             <livewire:helpers.alert :message="$message" :class="$classAlert" />
             @endif
-            @error('model.name')
+            @error('name')
             <livewire:helpers.alert message="Nom de la compagnie requis" class="alert-danger" />
             @enderror
-            @error('model.country')
+            @error('country')
             <livewire:helpers.alert message="Nom du pays requis" class="alert-danger" />
             @enderror
             <form wire:submit='save'>

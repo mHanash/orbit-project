@@ -2,11 +2,12 @@
 
 use Livewire\Volt\Component;
 use App\Models\Point;
+use App\Models\Flight;
 use App\Models\Airline;
-use App\Models\AirplaneType;
 
 new class extends Component {
     public $addPoint = false;
+    public $airplaneType = 0;
     public $namePoint = '';
     public $airline = 0;
     public $number = '';
@@ -16,14 +17,65 @@ new class extends Component {
     public $to = 0;
     public $airlines = [];
     public $airplaneTypes = [];
+    public $availableFromPoints = [];
+    public $availableToPoints = [];
+    public $message = '';
+    public $classAlert = '';
+    public $showMessage = false;
 
     public function mount()
     {
         $this->airlines = Airline::all();
+        $this->availableFromPoints = Point::all();
+        $this->availableToPoints = Point::all();
     }
-    public function updatedSelectedAirline($value)
+     public function selectedFrom($id)
+    {
+        $this->availableToPoints = Point::where('id', '!=', $id)->get();
+    }
+
+    public function selectedTo($id)
+    {
+            $this->availableFromPoints = Point::where('id', '!=', $id)->get();
+    }
+    public function selectedAirline($value)
     {
         $this->airplaneTypes = Airline::find($value)->airplaneTypes; // Récupérez les types d'avions
+    }
+    public function save()
+    {
+        $this->validate([
+            'number' => 'required',
+            'price' => 'required',
+            'date' => 'required',
+            'airplaneType' => 'required',
+            'airline' => 'required',
+            'from' => 'required',
+            'to' => 'required'
+        ]);
+
+        $flight = Flight::create([
+                'number' => $this->number,
+                'price' => $this->price,
+                'date' => $this->date,
+                'airplane_type_id' => $this->airplaneType,
+                'airline_id' => $this->airline,
+                'initial_point_id' => $this->from,
+                'final_point_id' => $this->to,
+                'status' => 'created'
+        ]);
+        $this->reset([
+            'number' ,
+            'price',
+            'date',
+            'airplaneType',
+            'airline',
+            'from',
+            'to'
+        ]);
+        $this->message = "Prévision de vol créée !";
+        $this->classAlert = "alert-success";
+        $this->showMessage = true;
     }
     public function addPointAction()
     {
@@ -33,7 +85,9 @@ new class extends Component {
         $this->validate(['namePoint'=>'required|string']);
         Point::create(['name'=>$this->namePoint]);
         $this->reset('namePoint');
+
     }
+
 }; ?>
 <x-slot name="header">
     <h2 class="h4 text-white">
@@ -44,7 +98,10 @@ new class extends Component {
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form>
+            @if ($showMessage)
+            <livewire:helpers.alert :message="$message" :class="$classAlert" />
+            @endif
+            <form wire:submit='save'>
                 <div class="form-group mb-2 row">
                     <label for="number" class="col-md-4 col-form-label">Numéro de vol</label>
                     <div class="col-md-8">
@@ -56,7 +113,7 @@ new class extends Component {
                     <label for="date" class="col-md-4 col-form-label">Date et Heure de vol</label>
                     <div class="col-md-8">
                         <input wire:model='date' type="datetime-local" class="form-control" id="date"
-                            placeholder="Password">
+                            placeholder="date">
                     </div>
                 </div>
                 <div class="form-group mb-2 row">
@@ -69,7 +126,8 @@ new class extends Component {
                 <div class="form-group mb-2 row">
                     <label for="airline" class="col-md-4 col-form-label">Compagnie</label>
                     <div class="col-md-8">
-                        <select wire:model='airline' name="airline" id="airline" class="form-select">
+                        <select wire:model='airline' wire:change="selectedAirline($event.target.value)" name="airline"
+                            id="airline" class="form-select">
                             <option value="0">Séléctionnez une compagnie</option>
                             @foreach($airlines as $airlineItem)
                             <option value="{{ $airlineItem->id }}">{{ $airlineItem->name }} ({{$airlineItem->country}})
@@ -95,13 +153,21 @@ new class extends Component {
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col">
-                                <select wire:model='from' name="from" id="from" class="form-select">
+                                <select wire:model='from' wire:change="selectedFrom($event.target.value)" name="from"
+                                    id="from" class="form-select" required>
                                     <option value="0">Départ</option>
+                                    @foreach($availableFromPoints as $itemPoint)
+                                    <option value="{{$itemPoint->id}}">{{$itemPoint->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col">
-                                <select wire:model='to' name="to" id="to" class="form-select">
+                                <select wire:model='to' wire:change="selectedTo($event.target.value)" name="to" id="to"
+                                    class="form-select" required>
                                     <option value="0">Arrivé</option>
+                                    @foreach($availableToPoints as $itemPoint)
+                                    <option value="{{$itemPoint->id}}">{{$itemPoint->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
