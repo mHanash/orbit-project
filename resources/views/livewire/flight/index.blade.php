@@ -35,7 +35,8 @@ new class extends Component {
                     <div class="card-body">
                         <h5 class="card-title">Vol num: {{$value->number}} </h5>
                         <p class="card-text">
-                            <b>{{$value->initialPoint->name}}-{{$value->finalPoint->name}}</b><br />{{$value->date}}<br />{{$value->airline->name}}
+                            <b>{{$value->initialPoint->name}}-{{$value->finalPoint->name}}</b><br />Le {{date('d/m/Y \à
+                            H:i',strtotime($value->date))}}<br />{{$value->airline->name}}
                             ({{$value->airline->country}})<br />{{$value->airplaneType->name}}<br />Prix ($):
                             {{$value->price}}
                         </p>
