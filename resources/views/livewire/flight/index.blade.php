@@ -74,7 +74,8 @@ new class extends Component {
                             ({{$value->airline->country}})<br />{{$value->airplaneType->name}}<br />Prix ($):
                             {{$value->price}}
                         </p>
-                        <a href="#" class="btn btn-success">Reserver</a>
+                        <a href="{{route('flight.reservation',['id'=>$value->id])}}"
+                            class="btn btn-success" wire:navigate>Reserver</a>
                     </div>
                 </div>
             </div>

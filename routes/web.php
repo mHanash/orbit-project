@@ -26,6 +26,7 @@ Route::prefix('portal')->middleware('auth')->group(function () {
     //routes pour vol
     Volt::route('/flight', 'flight.index')->name('flight.index');
     Volt::route('/flight/create', 'flight.create')->name('flight.create');
+    Volt::route('/flight/{id}/reservation', 'flight.reservation')->name('flight.reservation');
 });
 
 require __DIR__ . '/auth.php';

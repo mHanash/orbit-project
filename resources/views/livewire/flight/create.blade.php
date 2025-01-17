@@ -176,6 +176,7 @@ new class extends Component {
                 <div class="form-group row">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="{{route('flight.index')}}" class="btn btn-secondary" wire:navigate>Retour</a>
                     </div>
                 </div>
             </form>
