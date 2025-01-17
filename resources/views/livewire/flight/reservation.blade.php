@@ -93,7 +93,9 @@ new class extends Component {
             <div class="row">
                 <div class="col" style="text-align: right">
                     <span wire:loading>Chargement...</span>
-                    <button wire:click='save' class="btn btn-sm btn-primary">Ajouter une reservation</button>
+                    <button wire:click='save'
+                        onclick="return confirm('Confirmez pour ajouter une nouvelle reservation ?');"
+                        class="btn btn-sm btn-primary">Ajouter une reservation</button>
                 </div>
             </div>
         </div>
