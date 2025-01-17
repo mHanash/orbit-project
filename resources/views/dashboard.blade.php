@@ -10,7 +10,8 @@
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card custom-card bg-secondary h-100">
-                    <a href="#" class="text-decoration-none text-center hover">
+                    <a href="{{route('reservation.index')}}" class="text-decoration-none text-center hover"
+                        wire:navigate>
                         <div class="card-body">
                             <h5 class="card-title  text-white">Rechercher le vol</h5>
                         </div>
@@ -19,7 +20,7 @@
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card custom-card bg-secondary h-100">
-                    <a href="{{route('flight.index')}}" class="text-decoration-none text-center">
+                    <a href="{{route('flight.index')}}" class="text-decoration-none text-center" wire:navigate>
                         <div class="card-body">
                             <h5 class="card-title text-white">Vols disponible</h5>
                         </div>
